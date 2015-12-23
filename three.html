@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery-1.9.1.js"></script>
+    <script src="react.min.js"></script>
+    <script src="JSXTransformer.js"></script>
+    <script type="text/jsx">
+        $document.ready(function(){
+            var style={
+                color:"red",
+                border:"1px #000 solid"
+            };
+
+            var HelloWorld=React.createClass({
+                //父亲组件修改出发属性，可以修该新的属性和状态
+                componentWillReceiveProps:function(newProps){
+                    console.log("componentWillReceiveProps 1");
+                    console.log(newProps);
+                },
+                shouldComponentUpdate:function(){
+                    //返回false阻止render的调用
+                    console.log("shouldComponentUpdate 2");
+                    return true;
+                },
+                componentWillUpdate:function(){
+                    //不能修改属性和状态
+                    console.log("componentWillUpdate 3");
+                },
+                render:function(){
+                    console.log("render 4");
+                    return <p>Hello, {this.props.name ? this.props.name : "World"}</p>;
+                },
+                componentDidUpdate:function(){
+                    //修改dom
+                    $(React.findDOMNode(this)).append("lcc is kky");
+                }
+            });
+
+            var HellowView=React.createClass({
+                getInitialState:function(){
+                    return {name:''}
+                },
+                handleChange:function(event){
+                    this.setState({name:event.target.value});
+                },
+                render:function(){
+                    return <div>
+                        <HelloWorld name={this.state.name}></HelloWorld>
+                        <br/>
+                        <input type="text" onChange={this.handleChange} />
+                    </div>
+
+                }
+            });
+            React.render(<div style={style}><HelloUniverse></HelloUniverse></div>, document.body);
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery-1.9.1.js"></script>
+    <script src="react.min.js"></script>
+    <script src="JSXTransformer.js"></script>
+    <script type="text/jsx">
+        $document.ready(function(){
+            var count=0;
+            var style={
+                color:"red",
+                border:"1px #000 solid"
+            };
+
+            var HelloWorld=React.createClass({
+                getDefaultProps:function(){
+                    //只会调用一次
+                    console.log("getDefaultProps 1");
+                    return {name:"Tom"};
+                },
+                getInitialState:function(){
+                    //初始化没个实例的状态
+                    console.log("getInitialState 2");
+                    return {mycount:count++,ready:false}
+                },
+                componentWillMount:function(){
+                    //render 最后一次机会修改状态
+                    console.log("componentWillMount 3");
+                    this.setState({ready:true});
+                },
+                render:function(){
+                    //只能访问 this.props  this.state
+                    //只有一个顶层的组件
+                    //不让其修改状态和dom输出
+                    console.log("render 4");
+                    return <p ref="childp">你好啊，{this.props.name?this.props.name:"世界"}
+                    <br/>{"" + this.state.ready} {this.state.myCount}
+                    </p>
+                },
+                componentDidMount:function(){
+                    //成功的render之后你可以在这修改dom
+                    console.log("componentDidMount 5");
+                }
+            });
+            React.render(<div style={style}><HelloWorld></HelloWorld><br/><HelloWorld></HelloWorld></div>, document.body);
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

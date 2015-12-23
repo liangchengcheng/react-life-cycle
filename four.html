@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery-1.9.1.js"></script>
+    <script src="react.min.js"></script>
+    <script src="JSXTransformer.js"></script>
+    <script type="text/jsx">
+        $document.ready(function(){
+            var style={
+                color:"red",
+                border:"1px #000 solid"
+            };
+
+            var HelloWorld=React.createClass({
+               render:function(){
+                   console.log("render 4");
+                   return <p> hello ,{this.props.name?this.props.name:"hello world"}</p>
+               },
+                componentWillUnmount:function(){
+                    //在删除组件之前进行清理操作，
+                    //比如清除计时器和事件监听器
+                    console.log("00000000000000");
+                }
+            });
+
+            var SupperView=Reatc.createClass({
+                getInitialState:function(){
+                    return {name:''};
+                },
+                handleChange:function(event){
+                    if(event.target.value=="1"){
+                        React.unmountComponentAtNode(document.getElementsByTagName("body")[0]);
+                        return;
+                    }
+                    this.setState({name:event.target.value});
+                },
+                render:function(){
+                    return <div>
+                        <HelloWorld name={this.state.name}></HelloWorld>
+                        <br/>
+                        <input type="text" onchange={this.handleChange} />
+                    </div>
+                }
+            });
+
+           React.render(<div style={style}><SupperView></SupperView></div>,document.body);
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>
